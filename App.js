@@ -6,109 +6,107 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
+  Button,
   StatusBar,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import MainStackNavigator from './navigation/MainStackNavigator'
+import SplashScreen from 'react-native-splash-screen'
+import Realm from 'realm';
+import AsyncStorage from '@react-native-community/async-storage';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
+let realm;
+
+export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    /*realm = new Realm({
+      path: 'QualitySheetDatabase.realm',
+      schema: [
+          {
+              name: 'TL_quality_sheet',
+              properties: {
+                  entry_id: { type: 'int', default: 0 },
+                  auditor_name: 'string',
+                  house_number: 'string',
+                  row_number: 'string',
+                  week_number: 'int',
+                  clipping_data1: 'string',
+                  clipping_data2: 'string',
+                  clipping_data3: 'string',
+                  clipping_data4: 'string',
+                  pruning_data1: 'string',
+                  pruning_data2: 'string',
+                  pruning_data3: 'string',
+                  pruning_data4: 'string',
+                  twisting_data1: 'string',
+                  twisting_data2: 'string',
+                  twisting_data3: 'string',
+                  twisting_data4: 'string',
+                  picking_data1: 'string',
+                  picking_data2: 'string',
+                  picking_data3: 'string',
+                  picking_data4: 'string',
+                  deleafing_data1: 'string',
+                  deleafing_data2: 'string',
+                  deleafing_data3: 'string',
+                  deleafing_data4: 'string',
+                  dropping_data1: 'string',
+                  dropping_data2: 'string',
+                  dropping_data3: 'string',
+                  dropping_data4: 'string',
+                  quality_percent: 'int',
+                  data_send      : 'string',
+
+              },
+          },
+      ],
+  });*/
+
+  //ENDS
+    
+  }
+
+  async componentDidMount() {
+
+    SplashScreen.hide();
+
+  }
+
+  render() {
+    return (
+
+
+
+      <MainStackNavigator />
+
+
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10
   },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  instructions: {
+    textAlign: 'center',
+    marginBottom: 5,
   },
 });
-
-export default App;
