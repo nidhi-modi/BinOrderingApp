@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ImageBackground, Alert, useEffect, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, ImageBackground, Alert, useEffect, ActivityIndicator, Platform, TouchableHighlight } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
+import Realm from 'realm';
+import NetInfo from "@react-native-community/netinfo";
+import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment'
 
 var houseSelected;
 
@@ -12,8 +16,20 @@ export default class GerBinOrderingForm extends React.Component {
     super(props)
 
     this.state = {
-      showRealApp: false,
+
       selected: '',
+      visibility: false,
+      visibility2: false,
+      pickupDateTime: '',
+      front15MGeneral: 0,
+      front15MGreen: 0,
+      front30MGeneral: 0,
+      front30MGreen: 0,
+      back15MGeneral: 0,
+      back15MGreen: 0,
+      back30MGeneral: 0,
+      back30MGreen: 0,
+
     }
 
   }
@@ -21,12 +37,136 @@ export default class GerBinOrderingForm extends React.Component {
 
   componentDidMount() {
 
-    
-    
+
+
 
   }
 
-  
+  //-------------------------------------------------------------------------------------------------------------
+
+  //DATE TIME PICKER FOR TEXTINPUT
+
+  hideDatePicker = () => {
+    this.setState({ visibility: false });
+  };
+
+  handleConfirm = (datetime) => {
+
+    this.setState({ pickupDateTime: moment(datetime).format('Do MMMM YYYY , HH:mm') })
+
+    this.hideDatePicker();
+  }
+
+  onPressCancel = () => {
+    this.setState({ visibility: false })
+  }
+
+  onPressButton = () => {
+    this.setState({ visibility: true })
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  //DATE TIME PICKER FOR CLEAR BUTTON
+
+  hideDatePicker2 = () => {
+    this.setState({ visibility2: false });
+  };
+
+  handleConfirm2 = (datetime) => {
+
+    this.setState({ pickupDateTime: moment(datetime).format('Do MMMM YYYY , HH:mm') })
+    this.hideDatePicker2();
+  }
+
+  onPressCancel2 = () => {
+    this.setState({ visibility2: false })
+  }
+
+  onPressButton2 = () => {
+    this.setState({ visibility2: true })
+  }
+
+
+  clearText = () => {
+    this.setState({ visibility2: true, pickupDateTime: '' })
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  //INCREMENT AND DECREMENT BACK SIDE GER 15M GENERAL WASTE
+
+
+  incrementBack15General = () => {
+
+    this.setState({back15MGeneral : this.state.back15MGeneral + 1});
+  }
+
+  decrementBack15General = () => {
+
+    this.setState({back15MGeneral : this.state.back15MGeneral - 1});
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  //INCREMENT AND DECREMENT BACK SIDE GER 15M GREEN WASTE
+
+
+  incrementBack15Green = () => {
+
+    this.setState({back15MGreen : this.state.back15MGreen + 1});
+  }
+
+  decrementBack15Green = () => {
+
+    this.setState({back15MGreen : this.state.back15MGreen - 1});
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+   //INCREMENT AND DECREMENT BACK SIDE GER 30M GREEN WASTE
+
+
+   incrementBack30Green = () => {
+
+    this.setState({back30MGreen : this.state.back30MGreen + 1});
+  }
+
+  decrementBack30Green = () => {
+
+    this.setState({back30MGreen : this.state.back30MGreen - 1});
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+   //INCREMENT AND DECREMENT BACK SIDE GER 30M GENERAL WASTE
+
+
+   incrementBack30General = () => {
+
+    this.setState({back30MGeneral : this.state.back30MGeneral + 1});
+  }
+
+  decrementBack30General = () => {
+
+    this.setState({back30MGeneral : this.state.back30MGeneral - 1});
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+
 
 
   render() {
@@ -36,6 +176,320 @@ export default class GerBinOrderingForm extends React.Component {
 
         <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
 
+          <ScrollView style={styles.formContainer}
+            keyboardShouldPersistTaps='handled'>
+
+            <Text style={styles.headerText}>GER Bin Ordering Form</Text>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.direction}>
+              <Text style={styles.titleHeadingText}>Select Pickup Date And Time</Text>
+
+              <Text style={styles.clearHeadingText} onPress={() => this.clearText()}>Change</Text>
+              <DateTimePickerModal
+                isVisible={this.state.visibility2}
+                onConfirm={this.handleConfirm2}
+                onCancel={this.onPressCancel2}
+                mode="datetime"
+                is24Hour={false} />
+
+            </View>
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.borderEdit}>
+              <TextInput style={styles.textInputStyle}
+                autoCapitalize="none"
+                multiline={false}
+                autoCorrect={false}
+                enablesReturnKeyAutomatically={true}
+                onChangeText={this.navigateToScreen}
+                showSoftInputOnFocus={false}
+                value={this.state.pickupDateTime}
+                onFocus={this.onPressButton}
+
+              />
+              <DateTimePickerModal
+                isVisible={this.state.visibility}
+                onConfirm={this.handleConfirm}
+                onCancel={this.onPressCancel}
+                mode="datetime"
+                is24Hour={false} />
+
+
+            </View>
+
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension}></View>
+
+            <Text style={styles.headerText2}>Back Side of GER</Text>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension10}></View>
+
+            <Text style={styles.headerTextGreen}>Select quantity of bins required</Text>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.rowContainerBinSize}>
+
+              <Text style={styles.binSizeText}>15M</Text>
+
+              <Text style={styles.binSizeText}>30M</Text>
+
+
+
+            </View>
+
+
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.rowContainerBinSize}>
+
+
+              <View style={styles.rowContainerimages}>
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGeneral}>General{"\n"}waste</Text>
+
+
+                  <TouchableHighlight onPress={() => this.incrementBack15General()}>
+                    <Image style={styles.imagestyle} source={require('../assets/upRed.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight onPress={() => this.decrementBack15General()}>
+                    <Image style={styles.imagestyle} source={require('../assets/downRed.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGeneralBins}>{this.state.back15MGeneral} bins</Text>
+
+
+
+                </View>
+
+                <View style={styles.marginDimension5}></View>
+
+
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGreenWaste}>Green{"\n"}waste</Text>
+
+
+                  <TouchableHighlight onPress={() => this.incrementBack15Green()}>
+                    <Image style={styles.imagestyle} source={require('../assets/upGreen.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight onPress={() => this.decrementBack15Green()}>
+                    <Image style={styles.imagestyle} source={require('../assets/downGreen.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGreenWasteBins}>{this.state.back15MGreen} bins</Text>
+
+
+
+                </View>
+
+              </View>
+
+              <View style={styles.rowContainerimages}>
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGeneral}>General{"\n"}waste</Text>
+
+                  <TouchableHighlight onPress={() => this.incrementBack30General()}>
+                    <Image style={styles.imagestyle} source={require('../assets/upRed.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight onPress={() => this.decrementBack30General()}>
+                    <Image style={styles.imagestyle} source={require('../assets/downRed.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGeneralBins}>{this.state.back30MGeneral} bins</Text>
+
+
+
+                </View>
+
+                <View style={styles.marginDimension5}></View>
+
+
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGreenWaste}>Green{"\n"}waste</Text>
+
+                  <TouchableHighlight onPress={() => this.incrementBack30Green()}>
+                    <Image style={styles.imagestyle} source={require('../assets/upGreen.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight onPress={() => this.decrementBack30Green()}>
+                    <Image style={styles.imagestyle} source={require('../assets/downGreen.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGreenWasteBins}>{this.state.back30MGreen} bins</Text>
+
+
+                </View>
+
+              </View>
+
+
+
+            </View>
+
+
+            <View style={styles.dim}></View>
+
+            <Text style={styles.headerText2}>Front Side of GER</Text>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension10}></View>
+
+            <Text style={styles.headerTextGreen}>Select quantity of bins required</Text>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.rowContainerBinSize}>
+
+              <Text style={styles.binSizeText}>15M</Text>
+
+              <Text style={styles.binSizeText}>30M</Text>
+
+
+
+            </View>
+
+
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.rowContainerBinSize}>
+
+
+              <View style={styles.rowContainerimages}>
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGeneral}>General{"\n"}waste</Text>
+
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/upRed.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/downRed.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGeneralBins}>3 bins</Text>
+
+
+
+                </View>
+
+                <View style={styles.marginDimension5}></View>
+
+
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGreenWaste}>Green{"\n"}waste</Text>
+
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/upGreen.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/downGreen.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGreenWasteBins}>3 bins</Text>
+
+
+
+                </View>
+
+              </View>
+
+              <View style={styles.rowContainerimages}>
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGeneral}>General{"\n"}waste</Text>
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/upRed.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/downRed.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGeneralBins}>3 bins</Text>
+
+
+
+                </View>
+
+                <View style={styles.marginDimension5}></View>
+
+
+
+                <View style={styles.rowContainerBinSizeColumn}>
+
+                  <Text style={styles.headerTextGreenWaste}>Green{"\n"}waste</Text>
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/upGreen.png')} />
+                  </TouchableHighlight>
+
+                  <TouchableHighlight>
+                    <Image style={styles.imagestyle} source={require('../assets/downGreen.png')} />
+                  </TouchableHighlight>
+
+                  <Text style={styles.headerTextGreenWasteBins}>3 bins</Text>
+
+
+                </View>
+
+              </View>
+
+
+
+            </View>
+
+            <View style={styles.dim40}></View>
+
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={this.saveTrussToDb}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+
+            <View style={styles.marginDimension}></View>
+
+            <View style={styles.marginDimension10}></View>
+
+
+
+          </ScrollView>
         </ImageBackground>
 
       </View>
@@ -61,6 +515,65 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff'
   },
+
+  imagestyle: {
+
+    width: 83,
+    height: 132,
+
+  },
+
+  binSizeText: {
+    fontSize: 18,
+    color: 'black',
+    padding: 10,
+    backgroundColor: '#c4c4c4',
+    fontWeight: 'bold',
+
+
+  },
+
+  rowContainerBinSize: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+
+  rowContainerBinSizeColumn: {
+    flexDirection: 'column',
+    //justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+
+  rowContainerimages: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+
+  },
+
+  rowContainerimages2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+
+  },
+
+  direction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  formContainer: {
+
+    //backgroundColor: 'rgba(192,192,192,0.55)',
+    //borderRadius: 5,
+    padding: 5,
+    margin: 10,
+    height: '100%',
+    width: '100%'
+
+
+  },
   submitText: {
     color: '#ffffff',
     fontWeight: 'bold',
@@ -69,6 +582,154 @@ const styles = StyleSheet.create({
     textAlign: 'center'
 
   },
+
+  titleHeadingText: {
+
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold'
+
+  },
+
+  clearHeadingText: {
+
+    color: 'red',
+    fontSize: 13,
+    marginRight: 15,
+  },
+
+  marginDimension: {
+
+    marginTop: 16,
+
+  },
+
+  dim: {
+
+    marginTop: 80
+
+  },
+
+  dim40: {
+
+    marginTop: 40
+
+  },
+
+  marginDimension5: {
+
+    marginRight: 6,
+
+  },
+
+  marginDimension4: {
+
+    marginRight: 4,
+
+  },
+
+  marginDimension10: {
+
+    marginTop: 10,
+
+  },
+
+  textInputStyle: {
+    fontSize: 15,
+    color: 'black',
+    marginLeft: 10,
+    marginRight: 20,
+    height: 50,
+    backgroundColor: '#ffffff',
+
+
+
+
+  },
+
+  borderEdit: {
+
+    marginTop: 8,
+    marginRight: 16,
+    borderColor: '#000000',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+
+  buttonContainerTextInput: {
+    borderRadius: 5,
+    fontSize: 15,
+    color: 'black',
+    height: 50,
+    backgroundColor: '#ffffff',
+
+  },
+
+  headerText: {
+    color: '#000000',
+    fontSize: 22,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  headerText2: {
+    color: '#000000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    textDecorationLine: 'underline',
+  },
+
+  headerTextGreen: {
+    color: '#2C903D',
+    fontSize: 16,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    fontStyle: 'italic'
+
+  },
+
+  headerTextGeneral: {
+    color: 'red',
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: 'bold',
+  },
+
+
+  headerTextGeneralBins: {
+    marginTop: 5,
+    color: 'red',
+    fontSize: 18,
+    textAlign: "center",
+    fontWeight: 'bold',
+  },
+
+  headerTextGeneral2: {
+    color: 'red',
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: 'bold',
+  },
+
+  headerTextGreenWaste: {
+    color: '#2C903D',
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: 'bold',
+  },
+
+  headerTextGreenWasteBins: {
+    marginTop: 5,
+    color: '#2C903D',
+    fontSize: 18,
+    textAlign: "center",
+    fontWeight: 'bold',
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#ebebeb'
@@ -86,19 +747,22 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    backgroundColor: '#D3D3D3',
+    backgroundColor: 'rgba(0,128,0,0.65)',
     borderRadius: 5,
     padding: 10,
     margin: 20,
     height: 55,
+    marginRight: 30,
     justifyContent: 'center',
     alignItems: 'center'
 
   },
+
   buttonText: {
-    fontSize: 19,
-    color: '#000000',
+    fontSize: 23,
+    color: '#ffffff',
     fontWeight: 'bold',
+    fontStyle: 'italic'
 
   },
 
@@ -147,16 +811,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
 
-  textInputStyle: {
-    fontSize: 15,
-    color: 'black',
-    fontWeight: 'bold',
-    marginLeft: 15,
-    marginRight: 15,
-    backgroundColor: "transparent"
 
-
-  },
   text2: {
     color: '#0B5345',
     fontSize: 18,

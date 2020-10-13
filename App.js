@@ -21,6 +21,8 @@ import MainStackNavigator from './navigation/MainStackNavigator'
 import SplashScreen from 'react-native-splash-screen'
 import Realm from 'realm';
 import AsyncStorage from '@react-native-community/async-storage';
+import _ from 'lodash';
+
 
 let realm;
 
@@ -29,48 +31,35 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    /*realm = new Realm({
-      path: 'QualitySheetDatabase.realm',
+    realm = new Realm({
+      path: 'BinOrderingOfflineDB.realm',
       schema: [
           {
-              name: 'TL_quality_sheet',
+              name: 'bin_ordering_offline_table',
               properties: {
                   entry_id: { type: 'int', default: 0 },
-                  auditor_name: 'string',
-                  house_number: 'string',
-                  row_number: 'string',
-                  week_number: 'int',
-                  clipping_data1: 'string',
-                  clipping_data2: 'string',
-                  clipping_data3: 'string',
-                  clipping_data4: 'string',
-                  pruning_data1: 'string',
-                  pruning_data2: 'string',
-                  pruning_data3: 'string',
-                  pruning_data4: 'string',
-                  twisting_data1: 'string',
-                  twisting_data2: 'string',
-                  twisting_data3: 'string',
-                  twisting_data4: 'string',
-                  picking_data1: 'string',
-                  picking_data2: 'string',
-                  picking_data3: 'string',
-                  picking_data4: 'string',
-                  deleafing_data1: 'string',
-                  deleafing_data2: 'string',
-                  deleafing_data3: 'string',
-                  deleafing_data4: 'string',
-                  dropping_data1: 'string',
-                  dropping_data2: 'string',
-                  dropping_data3: 'string',
-                  dropping_data4: 'string',
-                  quality_percent: 'int',
-                  data_send      : 'string',
+                  site_name                : 'string',
+                  pickup_place             : 'string',
+                  size15_Frontbin          : 'string',
+                  size30_Frontbin          : 'string',
+                  size15Front_general      : 'string',
+                  size15Front_green        : 'string',
+                  size30Front_general      : 'string',
+                  size30Front_green        : 'string',
+                  size15_Backbin          : 'string',
+                  size30_Backbin          : 'string',
+                  size15Back_general      : 'string',
+                  size15Back_green        : 'string',
+                  size30Back_general      : 'string',
+                  size30Back_green        : 'string',
+                  pickup_date_time        : 'string',
+                  order_number            : 'string',
+                  data_send               : 'string',
 
               },
           },
       ],
-  });*/
+  });
 
   //ENDS
     
@@ -79,6 +68,8 @@ export default class App extends Component {
   async componentDidMount() {
 
     SplashScreen.hide();
+  
+
 
   }
 
