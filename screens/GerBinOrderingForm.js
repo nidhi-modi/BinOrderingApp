@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, ImageBackground, Alert, useEffect, ActivityIndicator, Platform, TouchableHighlight } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import Realm from 'realm';
 import NetInfo from "@react-native-community/netinfo";
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment'
+import Realm from 'realm'
 
 var houseSelected;
+let realm;
+var ID;
+var random = 0;
+
 
 export default class GerBinOrderingForm extends React.Component {
 
@@ -29,8 +33,15 @@ export default class GerBinOrderingForm extends React.Component {
       back15MGreen: 0,
       back30MGeneral: 0,
       back30MGreen: 0,
+      orderNumber: '',
+      isLoading: false,
+      pickupFront: 'No',
+      pickupBack: 'No',
+      siteAddress: 'GER Covered Crops, 153 Harrisville Road, Tuakau 2121'
 
     }
+
+    realm = new Realm({ path: 'BinOrderingOfflineDB.realm' });
 
   }
 
@@ -38,6 +49,27 @@ export default class GerBinOrderingForm extends React.Component {
   componentDidMount() {
 
 
+
+
+
+
+  }
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  generateOrderNumber = () => {
+
+    random = Math.floor(10000 + Math.random() * 90000)
+
+    console.log("order Number : " + random.toString());
+
+    this.setState({ orderNumber: random.toString() });
+    console.log("Number generated" + this.state.orderNumber);
+
+
+    setTimeout(() => {
+      this.saveFormToDb();
+    }, 1000);
 
 
   }
@@ -103,12 +135,22 @@ export default class GerBinOrderingForm extends React.Component {
 
   incrementBack15General = () => {
 
-    this.setState({back15MGeneral : this.state.back15MGeneral + 1});
+    this.setState({ back15MGeneral: this.state.back15MGeneral + 1, pickupBack: 'Yes' });
   }
 
   decrementBack15General = () => {
 
-    this.setState({back15MGeneral : this.state.back15MGeneral - 1});
+    if (this.state.back15MGeneral !== 0) {
+
+
+      this.setState({ back15MGeneral: this.state.back15MGeneral - 1, pickupBack: 'Yes' });
+
+    } else {
+
+      this.setState({ back15MGeneral: this.state.back15MGeneral, pickupBack: 'No' });
+
+
+    }
   }
 
   //END
@@ -120,56 +162,283 @@ export default class GerBinOrderingForm extends React.Component {
 
   incrementBack15Green = () => {
 
-    this.setState({back15MGreen : this.state.back15MGreen + 1});
+    this.setState({ back15MGreen: this.state.back15MGreen + 1, pickupBack: 'Yes' });
   }
 
   decrementBack15Green = () => {
 
-    this.setState({back15MGreen : this.state.back15MGreen - 1});
+    if (this.state.back15MGreen !== 0) {
+
+      this.setState({ back15MGreen: this.state.back15MGreen - 1, pickupBack: 'Yes' });
+
+    } else {
+
+      this.setState({ back15MGreen: this.state.back15MGreen, pickupBack: 'No' });
+
+
+    }
+
   }
 
   //END
 
   //-------------------------------------------------------------------------------------------------------------
 
-   //INCREMENT AND DECREMENT BACK SIDE GER 30M GREEN WASTE
+  //INCREMENT AND DECREMENT BACK SIDE GER 30M GREEN WASTE
 
 
-   incrementBack30Green = () => {
+  incrementBack30Green = () => {
 
-    this.setState({back30MGreen : this.state.back30MGreen + 1});
+    this.setState({ back30MGreen: this.state.back30MGreen + 1, pickupBack: 'Yes' });
   }
 
   decrementBack30Green = () => {
 
-    this.setState({back30MGreen : this.state.back30MGreen - 1});
+    if (this.state.back30MGreen !== 0) {
+
+      this.setState({ back30MGreen: this.state.back30MGreen - 1, pickupBack: 'Yes' });
+
+    } else {
+
+      this.setState({ back30MGreen: this.state.back30MGreen, pickupBack: 'No' });
+
+    }
   }
 
   //END
 
   //-------------------------------------------------------------------------------------------------------------
 
-   //INCREMENT AND DECREMENT BACK SIDE GER 30M GENERAL WASTE
+  //INCREMENT AND DECREMENT BACK SIDE GER 30M GENERAL WASTE
 
 
-   incrementBack30General = () => {
+  incrementBack30General = () => {
 
-    this.setState({back30MGeneral : this.state.back30MGeneral + 1});
+    this.setState({ back30MGeneral: this.state.back30MGeneral + 1, pickupBack: 'Yes' });
   }
 
   decrementBack30General = () => {
 
-    this.setState({back30MGeneral : this.state.back30MGeneral - 1});
+    if (this.state.back30MGeneral !== 0) {
+
+      this.setState({ back30MGeneral: this.state.back30MGeneral - 1, pickupBack: 'Yes' });
+
+    } else {
+
+      this.setState({ back30MGeneral: this.state.back30MGeneral, pickupBack: 'No' });
+
+    }
+
   }
 
   //END
 
   //-------------------------------------------------------------------------------------------------------------
+
+  //INCREMENT AND DECREMENT FRONT SIDE GER 15M GENERAL WASTE
+
+
+  incrementFront15General = () => {
+
+    this.setState({ front15MGeneral: this.state.front15MGeneral + 1, pickupFront: 'Yes' });
+  }
+
+  decrementFront15General = () => {
+
+    if (this.state.front15MGeneral !== 0) {
+
+
+      this.setState({ front15MGeneral: this.state.front15MGeneral - 1, pickupFront: 'Yes' });
+
+    } else {
+
+      this.setState({ front15MGeneral: this.state.front15MGeneral, pickupFront: 'No' });
+
+
+    }
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  //INCREMENT AND DECREMENT FRONT SIDE GER 15M GREEN WASTE
+
+
+  incrementFront15Green = () => {
+
+    this.setState({ front15MGreen: this.state.front15MGreen + 1, pickupFront: 'Yes' });
+  }
+
+  decrementFront15Green = () => {
+
+    if (this.state.front15MGreen !== 0) {
+
+      this.setState({ front15MGreen: this.state.front15MGreen - 1, pickupFront: 'Yes' });
+
+    } else {
+
+      this.setState({ front15MGreen: this.state.front15MGreen, pickupFront: 'No' });
+
+
+    }
+
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  //INCREMENT AND DECREMENT FRONT SIDE GER 30M GREEN WASTE
+
+
+  incrementFront30Green = () => {
+
+    this.setState({ front30MGreen: this.state.front30MGreen + 1, pickupFront: 'Yes' });
+  }
+
+  decrementFront30Green = () => {
+
+    if (this.state.front30MGreen !== 0) {
+
+      this.setState({ front30MGreen: this.state.front30MGreen - 1, pickupFront: 'Yes' });
+
+    } else {
+
+      this.setState({ front30MGreen: this.state.front30MGreen, pickupFront: 'Yes' });
+
+    }
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  //INCREMENT AND DECREMENT FRONT SIDE GER 30M GENERAL WASTE
+
+
+  incrementFront30General = () => {
+
+    this.setState({ front30MGeneral: this.state.front30MGeneral + 1 });
+  }
+
+  decrementFront30General = () => {
+
+    if (this.state.front30MGeneral !== 0) {
+
+      this.setState({ front30MGeneral: this.state.front30MGeneral - 1 });
+
+    } else {
+
+      this.setState({ front30MGeneral: this.state.front30MGeneral });
+
+    }
+
+  }
+
+  //END
+
+  //-------------------------------------------------------------------------------------------------------------
+
+  saveFormToDb = () => {
+
+    var that = this;
+    this.setState({ isLoading: true })
+
+    const { pickupDateTime } = this.state;
+
+
+    if (pickupDateTime) {
+
+      realm.write(() => {
+        ID =
+          realm.objects('bin_ordering_offline_table').sorted('entry_id', true).length > 0
+            ? realm.objects('bin_ordering_offline_table').sorted('entry_id', true)[0]
+              .entry_id + 1
+            : 1;
+        realm.create('bin_ordering_offline_table', {
+          entry_id: ID,
+          site_name: that.state.siteAddress,
+          pickup_Front: that.state.pickupFront,
+          pickup_Back: that.state.pickupBack,
+          size15Front_general: that.state.front15MGeneral.toString(),
+          size15Front_green: that.state.front15MGreen.toString(),
+          size30Front_general: that.state.front30MGeneral.toString(),
+          size30Front_green: that.state.front30MGreen.toString(),
+          size15Back_general: that.state.back15MGeneral.toString(),
+          size15Back_green: that.state.back15MGreen.toString(),
+          size30Back_general: that.state.back30MGeneral.toString(),
+          size30Back_green: that.state.back30MGreen.toString(),
+          pickup_date_time: that.state.pickupDateTime.toString(),
+          order_number: random.toString(),
+          data_send: 'Y',
+        });
+
+
+      });
+
+      const scriptUrl = 'https://script.google.com/macros/s/AKfycbzMdC38JoEPPm0je6QDDFxv6PPQx5KRGRgryBfg2-5yUDgkZag/exec';
+      const url = `${scriptUrl}?
+      callback=ctrlq&entry_id=${ID}&site_name=${that.state.siteAddress}&pickup_date_time=${that.state.pickupDateTime}&pickup_Front=${that.state.pickupFront}&pickup_Back=${that.state.pickupBack}&size15Front_general=${that.state.front15MGeneral}&size15Front_green=${that.state.front15MGreen}&size30Front_general=${that.state.front30MGeneral}&size30Front_green=${that.state.front30MGreen}&size15Back_general=${that.state.back15MGeneral}&size15Back_green=${that.state.back15MGreen}&size30Back_general=${that.state.back30MGeneral}&size30Back_green=${that.state.back30MGreen}&order_number=${random}`;
+
+      console.log("URL : " + url);
+      fetch(url, { mode: 'no-cors' }).then((response) => {
+        if (response.status === 200) {
+
+          this.setState({
+            pickupDateTime: '',
+            front15MGeneral: 0,
+            front15MGreen: 0,
+            front30MGeneral: 0,
+            front30MGreen: 0,
+            back15MGeneral: 0,
+            back15MGreen: 0,
+            back30MGeneral: 0,
+            back30MGreen: 0,
+            orderNumber: '',
+            pickupFront: 'No',
+            pickupBack: 'No',
+          })
+
+        }
+
+      });
+
+
+
+
+      this.setState({ isLoading: false, orderNumber: '' })
+
+
+    } else {
+
+      this.setState({ isLoading: false })
+      alert('Please select pickup date and time')
+
+    }
+
+
+
+
+
+  }
+
+
+
+  //---------------------------------------------------------------------------------------------------------------
 
 
 
 
   render() {
+
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.activity}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )
+    }
 
     return (
       <View style={styles.container}>
@@ -389,15 +658,15 @@ export default class GerBinOrderingForm extends React.Component {
                   <Text style={styles.headerTextGeneral}>General{"\n"}waste</Text>
 
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.incrementFront15General()}>
                     <Image style={styles.imagestyle} source={require('../assets/upRed.png')} />
                   </TouchableHighlight>
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.decrementFront15General()}>
                     <Image style={styles.imagestyle} source={require('../assets/downRed.png')} />
                   </TouchableHighlight>
 
-                  <Text style={styles.headerTextGeneralBins}>3 bins</Text>
+                  <Text style={styles.headerTextGeneralBins}>{this.state.front15MGeneral} bins</Text>
 
 
 
@@ -412,15 +681,15 @@ export default class GerBinOrderingForm extends React.Component {
                   <Text style={styles.headerTextGreenWaste}>Green{"\n"}waste</Text>
 
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.incrementFront15Green()}>
                     <Image style={styles.imagestyle} source={require('../assets/upGreen.png')} />
                   </TouchableHighlight>
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.decrementFront15Green()}>
                     <Image style={styles.imagestyle} source={require('../assets/downGreen.png')} />
                   </TouchableHighlight>
 
-                  <Text style={styles.headerTextGreenWasteBins}>3 bins</Text>
+                  <Text style={styles.headerTextGreenWasteBins}>{this.state.front15MGreen} bins</Text>
 
 
 
@@ -434,15 +703,15 @@ export default class GerBinOrderingForm extends React.Component {
 
                   <Text style={styles.headerTextGeneral}>General{"\n"}waste</Text>
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.incrementFront30General()}>
                     <Image style={styles.imagestyle} source={require('../assets/upRed.png')} />
                   </TouchableHighlight>
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.decrementFront30General()}>
                     <Image style={styles.imagestyle} source={require('../assets/downRed.png')} />
                   </TouchableHighlight>
 
-                  <Text style={styles.headerTextGeneralBins}>3 bins</Text>
+                  <Text style={styles.headerTextGeneralBins}>{this.state.front30MGeneral} bins</Text>
 
 
 
@@ -456,15 +725,15 @@ export default class GerBinOrderingForm extends React.Component {
 
                   <Text style={styles.headerTextGreenWaste}>Green{"\n"}waste</Text>
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.incrementFront30Green()}>
                     <Image style={styles.imagestyle} source={require('../assets/upGreen.png')} />
                   </TouchableHighlight>
 
-                  <TouchableHighlight>
+                  <TouchableHighlight onPress={() => this.decrementFront30Green()}>
                     <Image style={styles.imagestyle} source={require('../assets/downGreen.png')} />
                   </TouchableHighlight>
 
-                  <Text style={styles.headerTextGreenWasteBins}>3 bins</Text>
+                  <Text style={styles.headerTextGreenWasteBins}>{this.state.front30MGreen} bins</Text>
 
 
                 </View>
@@ -477,9 +746,13 @@ export default class GerBinOrderingForm extends React.Component {
 
             <View style={styles.dim40}></View>
 
+            {this.state.orderNumber !== '' ?
+              (<Text style={styles.titleHeadingText}>Order Number : {this.state.orderNumber}</Text>
+              ) : null}
+
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={this.saveTrussToDb}>
+              onPress={() => this.generateOrderNumber()}>
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
 
@@ -587,7 +860,8 @@ const styles = StyleSheet.create({
 
     color: 'black',
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginLeft: 20
 
   },
 

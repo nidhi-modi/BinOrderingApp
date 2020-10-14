@@ -26,7 +26,7 @@ function MainStackNavigator() {
                 initialRouteName='GerBinOrderingForm'
 
                 screenOptions={{
-                    gestureEnabled: true,
+                    gestureEnabled: false,
                     headerStyle: {
                         backgroundColor: '#2C903D'
                     },
