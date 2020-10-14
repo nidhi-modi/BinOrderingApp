@@ -68,7 +68,7 @@ export default class GerBinOrderingForm extends React.Component {
 
 
     setTimeout(() => {
-      this.saveFormToDb();
+      this.saveformToDbAlert();
     }, 1000);
 
 
@@ -342,17 +342,53 @@ export default class GerBinOrderingForm extends React.Component {
 
   saveformToDbAlert = () => {
 
-    Alert.alert(
-      'Bin Ordering Summary',
-      'Pickup location : '+this.state.siteAddress+'\nPickup Date and Time : '+this.state.pickupDateTime+'\nFront pickup : '+this.state.pickupFront+'\nBack pickup : '+this.state.pickupBack,
-      [
-        { text: 'No', style: 'cancel' },
-        { text: 'Yes', onPress: () => this.generateOrderNumber() },
-      ],
-      {
-        cancelable: false
-      }
-    );
+    if (this.state.pickupBack === 'Yes') {
+
+      Alert.alert(
+        'Bin Ordering Summary - ' + random,
+        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nBack pickup : ' + this.state.pickupBack + '\n15M General waste : '+this.state.back15MGeneral+' Bins'+ '\n15M Green waste : '+this.state.back15MGreen+' Bins'+ '\n30M General waste : '+this.state.back30MGeneral+' Bins'+ "\n30M Green waste : "+this.state.back30MGreen+ ' Bins',
+        [
+          { text: 'No', style: 'cancel' },
+          { text: 'Yes', onPress: () => this.saveFormToDb() },
+        ],
+        {
+          cancelable: false
+        }
+      );
+
+    } else if (this.state.pickupFront === 'Yes') {
+
+      Alert.alert(
+        'Bin Ordering Summary - ' + random,
+        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nFront pickup : ' + this.state.pickupFront + '\n15M General waste : '+this.state.front15MGeneral+' Bins'+ '\n15M Green waste : '+this.state.front15MGreen+' Bins'+ '\n30M General waste : '+this.state.front30MGeneral+' Bins'+ "\n30M Green waste : "+this.state.front30MGreen+ ' Bins',
+        [
+          { text: 'No', style: 'cancel' },
+          { text: 'Yes', onPress: () => this.saveFormToDb() },
+        ],
+        {
+          cancelable: false
+        }
+      );
+
+
+    } else {
+
+      Alert.alert(
+        'Bin Ordering Summary - ' + random,
+        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nBack pickup : ' + this.state.pickupBack + '\nFront pickup : ' + this.state.pickupFront + '\nBack 15M General waste : '+this.state.back15MGeneral+' Bins'+ '\nBack 15M Green waste : '+this.state.back15MGreen+' Bins'+ '\nBack 30M General waste : '+this.state.back30MGeneral+' Bins'+ "\nBack 30M Green waste : "+this.state.back30MGreen+ ' Bins'+ '\nFront 15M General waste : '+this.state.front15MGeneral+' Bins'+ '\nFront 15M Green waste : '+this.state.front15MGreen+' Bins'+ '\nFront 30M General waste : '+this.state.front30MGeneral+' Bins'+ "\nFront 30M Green waste : "+this.state.front30MGreen+ ' Bins',
+        [
+          { text: 'No', style: 'cancel' },
+          { text: 'Yes', onPress: () => this.saveFormToDb() },
+        ],
+        {
+          cancelable: false
+        }
+      );
+
+
+    }
+
+
 
   }
 
@@ -419,7 +455,7 @@ export default class GerBinOrderingForm extends React.Component {
             pickupBack: 'No',
           })
 
-          Toast.show('Form Submitted successfully',Toast.SHORT, Toast.CENTER);
+          Toast.show('Form Submitted successfully', Toast.SHORT, Toast.CENTER);
 
         }
 
@@ -773,7 +809,7 @@ export default class GerBinOrderingForm extends React.Component {
 
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => this.saveformToDbAlert()}>
+              onPress={() => this.generateOrderNumber()}>
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
 
@@ -882,7 +918,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 20
 
   },
 
@@ -967,6 +1002,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     alignItems: 'center',
+    textDecorationLine: 'underline',
+
   },
 
   headerText2: {
