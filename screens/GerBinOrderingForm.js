@@ -340,6 +340,25 @@ export default class GerBinOrderingForm extends React.Component {
 
   //-------------------------------------------------------------------------------------------------------------
 
+  saveformToDbAlert = () => {
+
+    Alert.alert(
+      'Bin Ordering Summary',
+      'Pickup location : '+this.state.siteAddress+'\nPickup Date and Time : '+this.state.pickupDateTime+'\nFront pickup : '+this.state.pickupFront+'\nBack pickup : '+this.state.pickupBack,
+      [
+        { text: 'No', style: 'cancel' },
+        { text: 'Yes', onPress: () => this.generateOrderNumber() },
+      ],
+      {
+        cancelable: false
+      }
+    );
+
+  }
+
+
+  //-------------------------------------------------------------------------------------------------------------
+
   saveFormToDb = () => {
 
     var that = this;
@@ -399,6 +418,8 @@ export default class GerBinOrderingForm extends React.Component {
             pickupFront: 'No',
             pickupBack: 'No',
           })
+
+          Toast.show('Form Submitted successfully',Toast.SHORT, Toast.CENTER);
 
         }
 
@@ -752,7 +773,7 @@ export default class GerBinOrderingForm extends React.Component {
 
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => this.generateOrderNumber()}>
+              onPress={() => this.saveformToDbAlert()}>
               <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
 
