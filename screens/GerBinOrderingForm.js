@@ -455,7 +455,7 @@ export default class GerBinOrderingForm extends React.Component {
             pickupBack: 'No',
           })
 
-          Toast.show('Form Submitted successfully', Toast.SHORT, Toast.CENTER);
+          Toast.show('Form Submitted successfully');
 
         }
 
