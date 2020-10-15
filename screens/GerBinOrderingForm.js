@@ -533,7 +533,7 @@ export default class GerBinOrderingForm extends React.Component {
                 multiline={false}
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
-                onChangeText={this.navigateToScreen}
+                onChangeText={this.onPressButton}
                 showSoftInputOnFocus={false}
                 value={this.state.pickupDateTime}
                 onFocus={this.onPressButton}
