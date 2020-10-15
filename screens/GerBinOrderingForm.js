@@ -534,6 +534,7 @@ export default class GerBinOrderingForm extends React.Component {
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onChangeText={this.onPressButton}
+                onPress={this.onPressButton}
                 showSoftInputOnFocus={false}
                 value={this.state.pickupDateTime}
                 onFocus={this.onPressButton}
