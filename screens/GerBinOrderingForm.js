@@ -434,7 +434,7 @@ export default class GerBinOrderingForm extends React.Component {
 
       const scriptUrl = 'https://script.google.com/macros/s/AKfycbzMdC38JoEPPm0je6QDDFxv6PPQx5KRGRgryBfg2-5yUDgkZag/exec';
       const url = `${scriptUrl}?
-      callback=ctrlq&entry_id=${ID}&site_name=${that.state.siteAddress}&pickup_date_time=${that.state.pickupDateTime}&pickup_Front=${that.state.pickupFront}&pickup_Back=${that.state.pickupBack}&size15Front_general=${that.state.front15MGeneral}&size15Front_green=${that.state.front15MGreen}&size30Front_general=${that.state.front30MGeneral}&size30Front_green=${that.state.front30MGreen}&size15Back_general=${that.state.back15MGeneral}&size15Back_green=${that.state.back15MGreen}&size30Back_general=${that.state.back30MGeneral}&size30Back_green=${that.state.back30MGreen}&order_number=${random}`;
+      callback=ctrlq&action=${'doPostData'}&entry_id=${ID}&site_name=${that.state.siteAddress}&pickup_date_time=${that.state.pickupDateTime}&pickup_Front=${that.state.pickupFront}&pickup_Back=${that.state.pickupBack}&size15Front_general=${that.state.front15MGeneral}&size15Front_green=${that.state.front15MGreen}&size30Front_general=${that.state.front30MGeneral}&size30Front_green=${that.state.front30MGreen}&size15Back_general=${that.state.back15MGeneral}&size15Back_green=${that.state.back15MGreen}&size30Back_general=${that.state.back30MGeneral}&size30Back_green=${that.state.back30MGreen}&order_number=${random}`;
 
       console.log("URL : " + url);
       fetch(url, { mode: 'no-cors' }).then((response) => {

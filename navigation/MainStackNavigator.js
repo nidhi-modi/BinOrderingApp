@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import GerBinOrderingForm from '../screens/GerBinOrderingForm'
 import CheckList from '../screens/CheckList'
+import CheckListItems from '../screens/CheckListItems'
+
 
 
 
@@ -64,6 +66,9 @@ function MainStackNavigator() {
                 })} />
 
                 <Stack.Screen name='CheckList' component={CheckList} options={{ title: 'T&G Global' }} />
+
+                <Stack.Screen name='CheckListItems' component={CheckListItems} options={{ title: 'T&G Global' }} />
+
 
             </Stack.Navigator>
 

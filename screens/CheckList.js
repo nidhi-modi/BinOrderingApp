@@ -5,7 +5,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Realm from 'realm';
 let realm;
 
+import filter from 'lodash.filter';
+import {SearchBar} from 'react-native-elements';
+
+
+
 var houseSelected;
+
+var id = 0;
 
 export default class CheckList extends Component {
 
@@ -16,26 +23,153 @@ export default class CheckList extends Component {
             showRealApp: false,
             selected: '',
             FlatListItems: [],
-            notFound: 'No Quality Checks Found',
+            notFound: 'No Orders Found',
+            isLoading: true,
+            combinedData: [],
+            search: '',
         }
 
-      
+
 
     }
 
 
     componentDidMount() {
 
+        //TESTING
+
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzMdC38JoEPPm0je6QDDFxv6PPQx5KRGRgryBfg2-5yUDgkZag/exec';
+        const url = `${scriptUrl}?callback=ctrlq&action=${'doGetData'}`;
+
+        console.log("URL : " + url);
+        fetch(url, { mode: 'no-cors' }).then((response) => response.json())
+            .then((responseJson) => {
+
+                this.setState({ combinedData: responseJson, isLoading: false })
+                console.log(this.state.combinedData);
+                if (responseJson !== null) {
+
+                    //this.renderEntryData();
+                }
+
+            }).catch((error) => {
+
+                console.log(error);
+            });
+
+        //END
+
 
     }
 
-   
+    renderEntryData = () => {
+
+
+
+
+    }
+    FlatListItemSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: '86%',
+                    backgroundColor: '#CED0CE',
+                    marginLeft: '5%'
+
+                }}
+            />
+        );
+    }
+
+        renderHeader = () => (
+            <View
+              style={{
+                backgroundColor: '#fff',
+                padding: 10,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+              <SearchBar
+                autoCapitalize='none'
+                autoCorrect={false}
+                onChangeText={this.handleSearch}
+                status='info'
+                placeholder='Search'
+                keyboardType='numeric'
+                style={{
+                  borderRadius: 25,
+                  borderColor: '#333',
+                  backgroundColor: '#fff'
+                }}
+                textStyle={{ color: '#000' }}
+              />
+            </View>
+          )
+      
+      searchAction=(text)=>{
+          const newData=this.state.combinedData.items.filter(item=>{
+              const itemData=`${item.order_number}`;
+              const textData=text.toUpperCase();
+              return itemData.indexOf(textData) > -1;
+  
+          });
+          this.setState({
+              combinedData:newData,
+              search:text
+          });
+      }
+
+
+    GetFlatListItem(order_number, pickup_Back, pickup_Front, pickup_date_time, site_name, size15Back_general, size15Back_green, size15Front_general, size15Front_green, size30Back_general, size30Back_green, size30Front_general, size30Front_green) {
+
+        this.props.navigation.navigate('CheckListItems', { invoice: order_number, pickupBack: pickup_Back, pickupFront: pickup_Front, dateTime: pickup_date_time, address: site_name, back15General: size15Back_general, back15Green: size15Back_green, front15General: size15Front_general, front15Green: size15Front_green, back30General: size30Back_general, back30Green: size30Back_green, front30General: size30Front_general, front30Green: size30Front_green })
+
+    }
+
     render() {
+
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.activity}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            )
+        }
+
+
         return (
             <View>
                 <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
 
-                   
+                    {this.state.combinedData.items === null ? (<Text style={styles.message}>{this.state.notFound}</Text>) :
+                        <View style={styles.container}>
+
+                            <FlatList
+
+                                data={this.state.combinedData.items}
+
+                                ItemSeparatorComponent={this.FlatListItemSeparator}
+
+                                renderItem={({ item }) =>
+                                    <Text style={{
+                                        padding: 16,
+                                        fontSize: 18,
+                                        height: 55,
+                                        fontWeight: 'bold',
+
+                                    }} onPress={this.GetFlatListItem.bind(this, item.order_number, item.pickup_Back, item.pickup_Front, item.pickup_date_time, item.site_name, item.size15Back_general, item.size15Back_green, item.size15Front_general, item.size15Front_green, item.size30Back_general, item.size30Back_green, item.size30Front_general, item.size30Front_green)}> Order Number : <Text style={{
+                                        color: 'red',
+
+                                    }}>  {item.order_number} </Text></Text>}
+
+                                keyExtractor={(item, index) => index.toString()}
+
+                            />
+
+
+                        </View>
+                    }
 
                 </ImageBackground>
             </View>
@@ -58,10 +192,28 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#fff'
     },
+    message: {
+        padding: 16,
+        fontSize: 24,
+        color: 'black',
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     redColor: {
 
         color: 'red'
 
+    },
+
+    activity: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     greenColor: {
