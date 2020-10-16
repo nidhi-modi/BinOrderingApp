@@ -5,8 +5,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Realm from 'realm';
 let realm;
 
-import filter from 'lodash.filter';
-import {SearchBar} from 'react-native-elements';
+import filter from 'lodash.filter'
+import { ApplicationProvider, Avatar, Input } from '@ui-kitten/components'
+import { SearchBar } from 'react-native-elements';
 
 
 
@@ -26,7 +27,9 @@ export default class CheckList extends Component {
             notFound: 'No Orders Found',
             isLoading: true,
             combinedData: [],
-            search: '',
+            query: '',
+            fullData: [],
+            err: '',
         }
 
 
@@ -45,7 +48,7 @@ export default class CheckList extends Component {
         fetch(url, { mode: 'no-cors' }).then((response) => response.json())
             .then((responseJson) => {
 
-                this.setState({ combinedData: responseJson, isLoading: false })
+                this.setState({ combinedData: responseJson, isLoading: false})
                 console.log(this.state.combinedData);
                 if (responseJson !== null) {
 
@@ -55,6 +58,8 @@ export default class CheckList extends Component {
             }).catch((error) => {
 
                 console.log(error);
+                
+                this.setState({ isLoading: false, err : error})
             });
 
         //END
@@ -74,7 +79,7 @@ export default class CheckList extends Component {
                 style={{
                     height: 1,
                     width: '86%',
-                    backgroundColor: '#CED0CE',
+                    //backgroundColor: '#CED0CE',
                     marginLeft: '5%'
 
                 }}
@@ -82,45 +87,7 @@ export default class CheckList extends Component {
         );
     }
 
-        renderHeader = () => (
-            <View
-              style={{
-                backgroundColor: '#fff',
-                padding: 10,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-              <SearchBar
-                autoCapitalize='none'
-                autoCorrect={false}
-                onChangeText={this.handleSearch}
-                status='info'
-                placeholder='Search'
-                keyboardType='numeric'
-                style={{
-                  borderRadius: 25,
-                  borderColor: '#333',
-                  backgroundColor: '#fff'
-                }}
-                textStyle={{ color: '#000' }}
-              />
-            </View>
-          )
-      
-      searchAction=(text)=>{
-          const newData=this.state.combinedData.items.filter(item=>{
-              const itemData=`${item.order_number}`;
-              const textData=text.toUpperCase();
-              return itemData.indexOf(textData) > -1;
   
-          });
-          this.setState({
-              combinedData:newData,
-              search:text
-          });
-      }
-
-
     GetFlatListItem(order_number, pickup_Back, pickup_Front, pickup_date_time, site_name, size15Back_general, size15Back_green, size15Front_general, size15Front_green, size30Back_general, size30Back_green, size30Front_general, size30Front_green) {
 
         this.props.navigation.navigate('CheckListItems', { invoice: order_number, pickupBack: pickup_Back, pickupFront: pickup_Front, dateTime: pickup_date_time, address: site_name, back15General: size15Back_general, back15Green: size15Back_green, front15General: size15Front_general, front15Green: size15Front_green, back30General: size30Back_general, back30Green: size30Back_green, front30General: size30Front_general, front30Green: size30Front_green })
@@ -142,7 +109,7 @@ export default class CheckList extends Component {
             <View>
                 <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
 
-                    {this.state.combinedData.items === null ? (<Text style={styles.message}>{this.state.notFound}</Text>) :
+                    {this.state.error === this.state.err ? (<Text style={styles.message}>{this.state.notFound}</Text>) :
                         <View style={styles.container}>
 
                             <FlatList

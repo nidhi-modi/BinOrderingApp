@@ -135,7 +135,26 @@ export default class GerBinOrderingForm extends React.Component {
 
   incrementBack15General = () => {
 
-    this.setState({ back15MGeneral: this.state.back15MGeneral + 1, pickupBack: 'Yes' });
+    if(this.state.back15MGeneral === 0) {
+    Alert.alert(
+      'Alert!!',
+      'Are you sure you want to order 15M General bin ?',
+      [
+        {
+          text: 'No',
+          style: 'cancel',
+        },
+        { text: 'Yes', onPress: () => this.setState({ back15MGeneral: this.state.back15MGeneral + 1, pickupBack: 'Yes' }) },
+      ]
+    );
+
+    }else{
+
+      this.setState({ back15MGeneral: this.state.back15MGeneral + 1, pickupBack: 'Yes' })
+
+    }
+
+
   }
 
   decrementBack15General = () => {
@@ -214,7 +233,25 @@ export default class GerBinOrderingForm extends React.Component {
 
   incrementBack30General = () => {
 
-    this.setState({ back30MGeneral: this.state.back30MGeneral + 1, pickupBack: 'Yes' });
+    if(this.state.back30MGeneral === 0) {
+      Alert.alert(
+        'Alert!!',
+        'Are you sure you want to order 30M General bin ?',
+        [
+          {
+            text: 'No',
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () => this.setState({ back30MGeneral: this.state.back30MGeneral + 1, pickupBack: 'Yes' }) },
+        ]
+      );
+  
+      }else{
+  
+        this.setState({ back30MGeneral: this.state.back30MGeneral + 1, pickupBack: 'Yes' });
+  
+      }
+
   }
 
   decrementBack30General = () => {
@@ -240,7 +277,28 @@ export default class GerBinOrderingForm extends React.Component {
 
   incrementFront15General = () => {
 
-    this.setState({ front15MGeneral: this.state.front15MGeneral + 1, pickupFront: 'Yes' });
+    if(this.state.front15MGeneral === 0) {
+      Alert.alert(
+        'Alert!!',
+        'Are you sure you want to order 15M General bin ?',
+        [
+          {
+            text: 'No',
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () =>     this.setState({ front15MGeneral: this.state.front15MGeneral + 1, pickupFront: 'Yes' })
+        },
+        ]
+      );
+  
+      }else{
+  
+        this.setState({ front15MGeneral: this.state.front15MGeneral + 1, pickupFront: 'Yes' });
+
+  
+      }
+
+
   }
 
   decrementFront15General = () => {
@@ -319,7 +377,26 @@ export default class GerBinOrderingForm extends React.Component {
 
   incrementFront30General = () => {
 
-    this.setState({ front30MGeneral: this.state.front30MGeneral + 1 });
+    if(this.state.front30MGeneral === 0) {
+      Alert.alert(
+        'Alert!!',
+        'Are you sure you want to order 30M General bin ?',
+        [
+          {
+            text: 'No',
+            style: 'cancel',
+          },
+          { text: 'Yes', onPress: () =>     this.setState({ front30MGeneral: this.state.front30MGeneral + 1, pickupFront: 'Yes' })
+        },
+        ]
+      );
+  
+      }else{
+  
+        this.setState({ front30MGeneral: this.state.front30MGeneral + 1, pickupFront: 'Yes' });
+
+      }
+
   }
 
   decrementFront30General = () => {
@@ -346,7 +423,7 @@ export default class GerBinOrderingForm extends React.Component {
 
       Alert.alert(
         'Bin Ordering Summary - ' + random,
-        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nBack pickup : ' + this.state.pickupBack + '\n15M General waste : '+this.state.back15MGeneral+' Bins'+ '\n15M Green waste : '+this.state.back15MGreen+' Bins'+ '\n30M General waste : '+this.state.back30MGeneral+' Bins'+ "\n30M Green waste : "+this.state.back30MGreen+ ' Bins',
+        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nBack pickup : ' + this.state.pickupBack + '\n15M General waste : ' + this.state.back15MGeneral + ' Bins' + '\n15M Green waste : ' + this.state.back15MGreen + ' Bins' + '\n30M General waste : ' + this.state.back30MGeneral + ' Bins' + "\n30M Green waste : " + this.state.back30MGreen + ' Bins',
         [
           { text: 'No', style: 'cancel' },
           { text: 'Yes', onPress: () => this.saveFormToDb() },
@@ -360,7 +437,7 @@ export default class GerBinOrderingForm extends React.Component {
 
       Alert.alert(
         'Bin Ordering Summary - ' + random,
-        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nFront pickup : ' + this.state.pickupFront + '\n15M General waste : '+this.state.front15MGeneral+' Bins'+ '\n15M Green waste : '+this.state.front15MGreen+' Bins'+ '\n30M General waste : '+this.state.front30MGeneral+' Bins'+ "\n30M Green waste : "+this.state.front30MGreen+ ' Bins',
+        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nFront pickup : ' + this.state.pickupFront + '\n15M General waste : ' + this.state.front15MGeneral + ' Bins' + '\n15M Green waste : ' + this.state.front15MGreen + ' Bins' + '\n30M General waste : ' + this.state.front30MGeneral + ' Bins' + "\n30M Green waste : " + this.state.front30MGreen + ' Bins',
         [
           { text: 'No', style: 'cancel' },
           { text: 'Yes', onPress: () => this.saveFormToDb() },
@@ -375,7 +452,7 @@ export default class GerBinOrderingForm extends React.Component {
 
       Alert.alert(
         'Bin Ordering Summary - ' + random,
-        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nBack pickup : ' + this.state.pickupBack + '\nFront pickup : ' + this.state.pickupFront + '\nBack 15M General waste : '+this.state.back15MGeneral+' Bins'+ '\nBack 15M Green waste : '+this.state.back15MGreen+' Bins'+ '\nBack 30M General waste : '+this.state.back30MGeneral+' Bins'+ "\nBack 30M Green waste : "+this.state.back30MGreen+ ' Bins'+ '\nFront 15M General waste : '+this.state.front15MGeneral+' Bins'+ '\nFront 15M Green waste : '+this.state.front15MGreen+' Bins'+ '\nFront 30M General waste : '+this.state.front30MGeneral+' Bins'+ "\nFront 30M Green waste : "+this.state.front30MGreen+ ' Bins',
+        'Pickup location : ' + this.state.siteAddress + '\nPickup Date and Time : ' + this.state.pickupDateTime + '\nBack pickup : ' + this.state.pickupBack + '\nFront pickup : ' + this.state.pickupFront + '\nBack 15M General waste : ' + this.state.back15MGeneral + ' Bins' + '\nBack 15M Green waste : ' + this.state.back15MGreen + ' Bins' + '\nBack 30M General waste : ' + this.state.back30MGeneral + ' Bins' + "\nBack 30M Green waste : " + this.state.back30MGreen + ' Bins' + '\nFront 15M General waste : ' + this.state.front15MGeneral + ' Bins' + '\nFront 15M Green waste : ' + this.state.front15MGreen + ' Bins' + '\nFront 30M General waste : ' + this.state.front30MGeneral + ' Bins' + "\nFront 30M Green waste : " + this.state.front30MGreen + ' Bins',
         [
           { text: 'No', style: 'cancel' },
           { text: 'Yes', onPress: () => this.saveFormToDb() },
@@ -805,7 +882,7 @@ export default class GerBinOrderingForm extends React.Component {
             <View style={styles.dim40}></View>
 
             {this.state.orderNumber !== '' ?
-              (<Text style={styles.titleHeadingText}>Order Number : {this.state.orderNumber}</Text>
+              (<Text style={styles.titleHeadingText2}>Order Number : {this.state.orderNumber}</Text>
               ) : null}
 
             <TouchableOpacity
@@ -919,6 +996,15 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 18,
     fontWeight: 'bold',
+
+  },
+
+  titleHeadingText2: {
+
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 20,
 
   },
 
