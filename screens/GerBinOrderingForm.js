@@ -615,6 +615,7 @@ export default class GerBinOrderingForm extends React.Component {
                 showSoftInputOnFocus={false}
                 value={this.state.pickupDateTime}
                 onFocus={this.onPressButton}
+                onSubmitEditing={() => { this.refsamp.focus(); }}
 
               />
               <DateTimePickerModal
@@ -629,6 +630,16 @@ export default class GerBinOrderingForm extends React.Component {
 
 
             <View style={styles.marginDimension}></View>
+
+            <TextInput
+                autoCapitalize="none"
+                multiline={false}
+                autoCorrect={false}
+                ref={(input) => { this.refsamp = input; }}
+                enablesReturnKeyAutomatically={true}
+                showSoftInputOnFocus={false}
+
+              />
 
             <View style={styles.marginDimension}></View>
 
