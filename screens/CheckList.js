@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, SafeAreaView, TouchableOpacity, Image, FlatList, ImageBackground, Alert, useEffect, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, FlatList, ImageBackground, Alert, useEffect, ActivityIndicator } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import Realm from 'realm';
@@ -104,31 +104,11 @@ export default class CheckList extends Component {
             )
         }
 
-        if(this.state.error === this.state.err){
-
-        
-        return (
-
-            <SafeAreaView>
-                <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
-
-<ScrollView>
-
-{this.state.error === this.state.err ? (<Text style={styles.message}>{this.state.notFound}</Text>) : null}
-
-
-</ScrollView>
-                </ImageBackground>
-            </SafeAreaView>
-
-
-
-        )
-
-        }
-
 
         return (
+            <View style={styles.container}>
+
+            <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
 
                         <View style={styles.container}>
 
@@ -158,6 +138,8 @@ export default class CheckList extends Component {
                         </View>
                     
 
+                </ImageBackground>
+            </View>
         );
     }
 }
@@ -239,7 +221,6 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#ebebeb'
     },
 
     buttonContainer1: {
