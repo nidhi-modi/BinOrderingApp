@@ -5,12 +5,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Realm from 'realm';
 let realm;
 
-import filter from 'lodash.filter'
-import { ApplicationProvider, Avatar, Input } from '@ui-kitten/components'
-import { SearchBar } from 'react-native-elements';
-
-
-
 var houseSelected;
 
 var id = 0;
@@ -30,6 +24,7 @@ export default class CheckList extends Component {
             query: '',
             fullData: [],
             err: '',
+            searchTerm: ''
         }
 
 
@@ -48,7 +43,7 @@ export default class CheckList extends Component {
         fetch(url, { mode: 'no-cors' }).then((response) => response.json())
             .then((responseJson) => {
 
-                this.setState({ combinedData: responseJson, isLoading: false})
+                this.setState({ combinedData: responseJson, isLoading: false })
                 console.log(this.state.combinedData);
                 if (responseJson !== null) {
 
@@ -58,8 +53,8 @@ export default class CheckList extends Component {
             }).catch((error) => {
 
                 console.log(error);
-                
-                this.setState({ isLoading: false, err : error})
+
+                this.setState({ isLoading: false, err: error })
             });
 
         //END
@@ -87,7 +82,7 @@ export default class CheckList extends Component {
         );
     }
 
-  
+
     GetFlatListItem(order_number, pickup_Back, pickup_Front, pickup_date_time, site_name, size15Back_general, size15Back_green, size15Front_general, size15Front_green, size30Back_general, size30Back_green, size30Front_general, size30Front_green) {
 
         this.props.navigation.navigate('CheckListItems', { invoice: order_number, pickupBack: pickup_Back, pickupFront: pickup_Front, dateTime: pickup_date_time, address: site_name, back15General: size15Back_general, back15Green: size15Back_green, front15General: size15Front_general, front15Green: size15Front_green, back30General: size30Back_general, back30Green: size30Back_green, front30General: size30Front_general, front30Green: size30Front_green })
@@ -105,38 +100,40 @@ export default class CheckList extends Component {
         }
 
 
+
         return (
             <View style={styles.container}>
 
-            <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
+                <ImageBackground source={require('../assets/background2.png')} style={styles.backgroundImage}>
 
-                        <View style={styles.container}>
+                    <View style={styles.container}>
 
-                            <FlatList
+            
+                        <FlatList
 
-                                data={this.state.combinedData.items}
+                            data={this.state.combinedData.items}
 
-                                ItemSeparatorComponent={this.FlatListItemSeparator}
+                            ItemSeparatorComponent={this.FlatListItemSeparator}
 
-                                renderItem={({ item }) =>
-                                    <Text style={{
-                                        padding: 16,
-                                        fontSize: 18,
-                                        height: 55,
-                                        fontWeight: 'bold',
+                            renderItem={({ item }) =>
+                                <Text style={{
+                                    padding: 16,
+                                    fontSize: 18,
+                                    height: 55,
+                                    fontWeight: 'bold',
 
-                                    }} onPress={this.GetFlatListItem.bind(this, item.order_number, item.pickup_Back, item.pickup_Front, item.pickup_date_time, item.site_name, item.size15Back_general, item.size15Back_green, item.size15Front_general, item.size15Front_green, item.size30Back_general, item.size30Back_green, item.size30Front_general, item.size30Front_green)}> Order Number : <Text style={{
-                                        color: 'red',
+                                }} onPress={this.GetFlatListItem.bind(this, item.order_number, item.pickup_Back, item.pickup_Front, item.pickup_date_time, item.site_name, item.size15Back_general, item.size15Back_green, item.size15Front_general, item.size15Front_green, item.size30Back_general, item.size30Back_green, item.size30Front_general, item.size30Front_green)}> Order Number : <Text style={{
+                                    color: 'red',
 
-                                    }}>  {item.order_number} </Text></Text>}
+                                }}>  {item.order_number} </Text></Text>}
 
-                                keyExtractor={(item, index) => index.toString()}
+                            keyExtractor={(item, index) => index.toString()}
 
-                            />
+                        />
 
 
-                        </View>
-                    
+                    </View>
+
 
                 </ImageBackground>
             </View>
@@ -158,6 +155,14 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#fff'
+    },
+    sSearchBar: {
+        paddingHorizontal: 10,
+        margin: 10,
+        height: 50,
+        borderColor: "gray",
+        borderWidth: 1,
+        fontSize: 18
     },
     message: {
         padding: 16,

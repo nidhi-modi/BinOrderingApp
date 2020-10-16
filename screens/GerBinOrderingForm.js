@@ -452,7 +452,7 @@ export default class GerBinOrderingForm extends React.Component {
       );
 
 
-    } else {
+    } else if(this.state.pickupFront === 'Yes' && this.state.pickupBack === 'Yes'){
 
       Alert.alert(
         'Bin Ordering Summary - ' + random,
