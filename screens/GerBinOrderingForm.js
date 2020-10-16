@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, ImageBackground, Alert, useEffect, ActivityIndicator, Platform, TouchableHighlight } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, ImageBackground, Alert, useEffect, ActivityIndicator, Platform, TouchableHighlight, Keyboard } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NetInfo from "@react-native-community/netinfo";
 import Toast from 'react-native-simple-toast';
@@ -148,6 +148,8 @@ export default class GerBinOrderingForm extends React.Component {
       ]
     );
 
+    Keyboard.dismiss();
+
     }else{
 
       this.setState({ back15MGeneral: this.state.back15MGeneral + 1, pickupBack: 'Yes' })
@@ -245,6 +247,8 @@ export default class GerBinOrderingForm extends React.Component {
           { text: 'Yes', onPress: () => this.setState({ back30MGeneral: this.state.back30MGeneral + 1, pickupBack: 'Yes' }) },
         ]
       );
+
+      Keyboard.dismiss();
   
       }else{
   
@@ -290,7 +294,7 @@ export default class GerBinOrderingForm extends React.Component {
         },
         ]
       );
-  
+      Keyboard.dismiss();
       }else{
   
         this.setState({ front15MGeneral: this.state.front15MGeneral + 1, pickupFront: 'Yes' });
@@ -390,7 +394,7 @@ export default class GerBinOrderingForm extends React.Component {
         },
         ]
       );
-  
+      Keyboard.dismiss();
       }else{
   
         this.setState({ front30MGeneral: this.state.front30MGeneral + 1, pickupFront: 'Yes' });
