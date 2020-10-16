@@ -631,16 +631,6 @@ export default class GerBinOrderingForm extends React.Component {
 
             <View style={styles.marginDimension}></View>
 
-            <TextInput
-                autoCapitalize="none"
-                multiline={false}
-                autoCorrect={false}
-                ref={(input) => { this.refsamp = input; }}
-                enablesReturnKeyAutomatically={true}
-                showSoftInputOnFocus={false}
-
-              />
-
             <View style={styles.marginDimension}></View>
 
             <Text style={styles.headerText2}>Back Side of GER</Text>
