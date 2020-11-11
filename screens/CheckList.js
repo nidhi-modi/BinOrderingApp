@@ -111,7 +111,7 @@ export default class CheckList extends Component {
             
                         <FlatList
 
-                            data={this.state.combinedData.items}
+                            data={this.state.combinedData.items.sort((a,b) => b.order_number - a.order_number)}
 
                             ItemSeparatorComponent={this.FlatListItemSeparator}
 

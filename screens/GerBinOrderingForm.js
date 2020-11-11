@@ -931,8 +931,8 @@ const styles = StyleSheet.create({
 
   imagestyle: {
 
-    width: 83,
-    height: 132,
+    width: 60,
+    height: 93,
 
   },
 
@@ -1040,7 +1040,7 @@ const styles = StyleSheet.create({
 
   marginDimension5: {
 
-    marginRight: 6,
+    marginRight: 11,
 
   },
 
@@ -1053,6 +1053,12 @@ const styles = StyleSheet.create({
   marginDimension10: {
 
     marginTop: 10,
+
+  },
+
+  marginDimension20: {
+
+    marginTop: 20,
 
   },
 
