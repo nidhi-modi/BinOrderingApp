@@ -423,7 +423,9 @@ export default class GerBinOrderingForm extends React.Component {
 
   saveformToDbAlert = () => {
 
-    if (this.state.pickupBack === 'Yes') {
+    console.log("PICKUP FRONT : "+this.state.pickupFront+ " PICKUP BACK : "+this.state.pickupBack);
+
+    if (this.state.pickupBack === 'Yes' && this.state.pickupFront === 'No') {
 
       Alert.alert(
         'Bin Ordering Summary - ' + random,
@@ -437,7 +439,7 @@ export default class GerBinOrderingForm extends React.Component {
         }
       );
 
-    } else if (this.state.pickupFront === 'Yes') {
+    } else if (this.state.pickupFront === 'Yes' && this.state.pickupBack === 'No') {
 
       Alert.alert(
         'Bin Ordering Summary - ' + random,
