@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, ImageBackground, Alert, useEffect, ActivityIndicator, Platform, TouchableHighlight, Keyboard } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, BackHandler, ImageBackground, Alert, useEffect, ActivityIndicator, Platform, TouchableHighlight, Keyboard } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import NetInfo from "@react-native-community/netinfo";
 import Toast from 'react-native-simple-toast';
@@ -45,13 +45,22 @@ export default class GerBinOrderingForm extends React.Component {
 
   }
 
+  handleBackButton = () => {
+
+    BackHandler.exitApp();
+
+}
+
+onButtonPress = () => {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    // then navigate
+    navigate('NewScreen');
+}
+
 
   componentDidMount() {
 
-
-
-
-
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
 
   }
 

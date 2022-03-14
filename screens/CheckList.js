@@ -111,7 +111,7 @@ export default class CheckList extends Component {
             
                         <FlatList
 
-                            data={this.state.combinedData.items.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp))}
+                            data={this.state.combinedData.items.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp))}
 
                             ItemSeparatorComponent={this.FlatListItemSeparator}
 

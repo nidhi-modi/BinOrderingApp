@@ -81,12 +81,12 @@ export default class CheckListItems extends Component {
 
                             {this.state.pickup_Back !== 'No' ? (<View style={styles.directions}>
                                 <Text style={{ fontSize: 17, marginTop: 10, fontWeight: 'bold' }}>Pickup Location :  </Text>
-                                <Text style={{ fontSize: 17, marginTop: 10, flexShrink: 1 }}>Back of GER</Text>
+                                <Text style={{ fontSize: 17, marginTop: 10, flexShrink: 1 }}>Back of Site</Text>
                             </View>) : null}
 
                             {this.state.pickup_Front !== 'No' ? (<View style={styles.directions}>
                                 <Text style={{ fontSize: 17, marginTop: 10, fontWeight: 'bold' }}>Pickup Location :  </Text>
-                                <Text style={{ fontSize: 17, marginTop: 10, flexShrink: 1 }}>Front of GER</Text>
+                                <Text style={{ fontSize: 17, marginTop: 10, flexShrink: 1 }}>Front of Site</Text>
                             </View>) : null}
 
                             {this.state.size15Back_general !== 0 ? (<View style={styles.directions}>
