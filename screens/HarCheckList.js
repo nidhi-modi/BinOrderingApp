@@ -36,7 +36,7 @@ export default class HarCheckList extends Component {
 
         //TESTING
 
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzdnmedz2mKFyXf_S8qihyiDalvg1o-fb6a2PB5DFxSpn1hilE/exec';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbyM0SG2X6t8_UdQj-RQb0gM12wBK_fXZycVDmts_kTIuD727bI/exec';
         const url = `${scriptUrl}?callback=ctrlq&action=${'doGetHarData'}`;
 
         console.log("URL : " + url);
