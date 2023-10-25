@@ -188,7 +188,7 @@ PODS:
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
   - React-jsinspector (0.63.3)
-  - react-native-netinfo (8.1.0):
+  - react-native-netinfo (8.3.1):
     - React-Core
   - react-native-restart (0.0.17):
     - React
@@ -431,7 +431,7 @@ SPEC CHECKSUMS:
   React-jsi: df07aa95b39c5be3e41199921509bfa929ed2b9d
   React-jsiexecutor: b56c03e61c0dd5f5801255f2160a815f4a53d451
   React-jsinspector: 8e68ffbfe23880d3ee9bafa8be2777f60b25cbe2
-  react-native-netinfo: 379ba2af7d2abcec0c062267abe1c9a977c72bf9
+  react-native-netinfo: 1a6035d3b9780221d407c277ebfb5722ace00658
   react-native-restart: d19a0f8d053d065fe64cd2baebb6487111c77149
   react-native-safe-area-context: 79fea126c6830c85f65947c223a5e3058a666937
   react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
@@ -458,6 +458,6 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
 
-PODFILE CHECKSUM: 01003e5a3c3a4414d5a3fb99e1296cdaba8090b8
+PODFILE CHECKSUM: b354019df6e16d5a3181f4834be344733012e7ae
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.13.0
