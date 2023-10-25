@@ -36,7 +36,7 @@ export default class CheckList extends Component {
 
         //TESTING
 
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbzMdC38JoEPPm0je6QDDFxv6PPQx5KRGRgryBfg2-5yUDgkZag/exec';
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwPKZ_fuVzitdBwMa6od4qVJsq0Sr1c6RP5CLb74mWJRWZrboC0IrwPxZWFZ3Qoe6tf/exec';
         const url = `${scriptUrl}?callback=ctrlq&action=${'doGetData'}`;
 
         console.log("URL : " + url);
