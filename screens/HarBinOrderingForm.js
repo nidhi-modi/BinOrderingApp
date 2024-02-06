@@ -66,6 +66,9 @@ export default class HarBinOrderingForm extends React.Component {
   };
 
   componentDidMount() {
+    Toast.show(
+      'Due to plant disease, green waste bin orders are paused. Please order general waste bins instead.',
+    );
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
   }
 
@@ -769,6 +772,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </Text>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.incrementBack15Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -777,6 +781,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.decrementBack15Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -825,6 +830,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </Text>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.incrementBack30Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -833,6 +839,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.decrementBack30Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -907,6 +914,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </Text>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.incrementFront15Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -915,6 +923,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.decrementFront15Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -963,6 +972,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </Text>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.incrementFront30Green()}>
                     <Image
                       style={styles.imagestyle}
@@ -971,6 +981,7 @@ export default class HarBinOrderingForm extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    disabled={true}
                     onPress={() => this.decrementFront30Green()}>
                     <Image
                       style={styles.imagestyle}
